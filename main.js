@@ -13,9 +13,14 @@ const ctx = {
 };
 
 function resize(w = innerWidth, h = innerHeight) {
+  cnv.grapher.style.height = h + "px";
+  cnv.grapher.style.width = w + "px";
+  cnv.sheet.style.height = h + "px";
+  cnv.sheet.style.width = w + "px";
+
   w *= devicePixelRatio;
   h *= devicePixelRatio;
-
+  
   cnv.grapher.height = h;
   cnv.grapher.width = w;
   cnv.sheet.height = h;
@@ -29,22 +34,27 @@ function fillCnv(cnv, ctx, color="#0002") {
   ctx.restore();
 }
 
-const mainScale = new MainScale(innerWidth / 2, innerHeight / 2, 200);
+const mainScale = new MainScale(cnv.grapher.width / 2, cnv.grapher.height / 2, 400);
 
-resize();
 addEventListener("resize", () => {
   resize();
-  mainScale.x = innerWidth / 2;
-  mainScale.y = innerHeight / 2;
+  mainScale.x = cnv.grapher.width / 2;
+  mainScale.y = cnv.grapher.height / 2;
 });
 
-const circle = mainScale.addCircle(49, 0, .01);
+addEventListener("load", () => {
+  resize();
+  mainScale.x = cnv.grapher.width / 2;
+  mainScale.y = cnv.grapher.height / 2;
+});
+
+const circle = mainScale.addCircle(99, 0, .01);
 circle.addPen(1, "blue", 50);
 circle.addPen(.5, "orange", 20);
 
-const c2 = mainScale.addCircle(99, 0, .02);
-c2.addPen(.5, "black", 10);
-c2.addPen(.5, "green", 20);
+const c2 = mainScale.addCircle(199, 0, .02);
+c2.addPen(.5, "black", 30);
+c2.addPen(.5, "green", 50);
 
 let animId = null;
 
