@@ -35,16 +35,19 @@ addEventListener("resize", () => {
   mainScale.y = innerHeight / 2;
 });
 
-const circle = new Circle(mainScale, 99);
+const circle = mainScale.addCircle(49, 0, .01);
 circle.addPen(.5, "blue", 50);
+circle.addPen(.5, "orange", 20);
 
+const c2 = mainScale.addCircle(99, 0, .02);
+c2.addPen(.5, "black", 10);
+c2.addPen(.5, "green", 20);
 
 let animId = null;
 
 function animate() {
   fillCnv(cnv.grapher, ctx.grapher, "#fff");
-  mainScale.draw(ctx.grapher);
-  circle.update(ctx.grapher, ctx.sheet);
+  mainScale.update(ctx.grapher, ctx.sheet);
 
   animId = requestAnimationFrame(animate);
 

@@ -3,6 +3,7 @@ export class MainScale {
     this.x = x;
     this.y = y;
     this.r = r;
+    this.circles = [];
   }
 
   draw(ctx) {
@@ -12,6 +13,20 @@ export class MainScale {
     ctx.strokeStyle = "black";
     ctx.stroke();
     ctx.restore();
+  }
+
+  update(ctx, sheetCtx) {
+    this.circles.forEach(circle => {
+      circle.update(ctx, sheetCtx);
+    });
+
+    this.draw(ctx)
+  }
+  
+  addCircle(r, initialTheta=0, omega=.1) {
+    const circle = (new Circle(r, initialTheta, omega, this));
+    this.circles.push(circle);
+    return circle;
   }
 }
 
@@ -35,15 +50,16 @@ class Pen {
 }
 
 export class Circle {
-  constructor(scale, r) {
+  constructor(r, initialTheta, omega, scale) {
     this.scale = scale;
     this.r = r;
-    this.theta = 0;
-    this.omega = .01;
+    this.theta = initialTheta;
+    this.omega = omega;
 
     this.cr = this.scale.r / this.r;
 
     this.pens = [];
+    this.scale.circles.push(this);
   }
 
   draw(ctx, sheetCtx) {
