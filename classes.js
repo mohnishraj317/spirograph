@@ -36,16 +36,22 @@ class Pen {
     this.color = color;
     this.offset = offset;
     this.parentCircle = parentCircle;
+
+    const x = this.parentCircle.x + this.offset*Math.cos(this.parentCircle.theta * this.parentCircle.cr);
+    const y = this.parentCircle.y - this.offset*Math.sin(this.parentCircle.theta * this.parentCircle.cr);
+
+    this.path = new Path2D();
+    this.path.moveTo(x, y);
   }
 
   draw(ctx) {
     const x = this.parentCircle.x + this.offset*Math.cos(this.parentCircle.theta * this.parentCircle.cr);
     const y = this.parentCircle.y - this.offset*Math.sin(this.parentCircle.theta * this.parentCircle.cr);
 
-    ctx.beginPath();
-    ctx.arc(x, y, this.width, 0, Math.PI * 2);
-    ctx.fillStyle = this.color;
-    ctx.fill();
+    this.path.lineTo(x, y);
+    ctx.lineWidth = this.width;
+    ctx.strokeStyle = this.color;
+    ctx.stroke(this.path);
   }
 }
 

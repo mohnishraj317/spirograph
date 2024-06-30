@@ -13,6 +13,9 @@ const ctx = {
 };
 
 function resize(w = innerWidth, h = innerHeight) {
+  w *= devicePixelRatio;
+  h *= devicePixelRatio;
+
   cnv.grapher.height = h;
   cnv.grapher.width = w;
   cnv.sheet.height = h;
@@ -36,7 +39,7 @@ addEventListener("resize", () => {
 });
 
 const circle = mainScale.addCircle(49, 0, .01);
-circle.addPen(.5, "blue", 50);
+circle.addPen(1, "blue", 50);
 circle.addPen(.5, "orange", 20);
 
 const c2 = mainScale.addCircle(99, 0, .02);
