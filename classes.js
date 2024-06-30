@@ -59,7 +59,6 @@ export class Circle {
     this.cr = this.scale.r / this.r;
 
     this.pens = [];
-    this.scale.circles.push(this);
   }
 
   draw(ctx, sheetCtx) {
