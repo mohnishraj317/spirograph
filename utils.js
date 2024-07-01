@@ -22,6 +22,8 @@ export function resize(w = innerWidth, h = innerHeight) {
 
     cnv.height = scaleH;
     cnv.width = scaleW;
+
+    cnv.getContext("2d").scale(devicePixelRatio, devicePixelRatio);
   });
 }
 

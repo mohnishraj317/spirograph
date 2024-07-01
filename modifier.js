@@ -102,7 +102,15 @@ export default class Modifier {
       radiusFlag = true;
     });
 
+    rControl.addEventListener("touchstart", () => {
+      radiusFlag = true;
+    })
+
     mControl.addEventListener("mousedown", () => {
+      moveFlag = true;
+    });
+
+    mControl.addEventListener("touchstart", () => {
       moveFlag = true;
     });
 

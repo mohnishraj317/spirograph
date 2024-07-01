@@ -11,11 +11,13 @@
   --base-50: #E3FEF7;
 }
 
+html,
 body {
   font-family: arial;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  position: absolute;
 }
 
 body.mode-circle {
@@ -120,8 +122,9 @@ body.mode-edit {
 }
 
 .modifier > .m-control {
-  height: 1rem;
-  width: 1rem;
+  --size: 2rem;
+  height: var(--size);
+  width: var(--size);
   border-radius: 50%;
   background: currentColor;
   position: absolute;
@@ -131,7 +134,7 @@ body.mode-edit {
 .modifier > .m-control-radius {
   left: 100%;
   top: 50%;
-  transform: translate(50%, -50%);
+  transform: translate(25%, -50%);
 }
 
 .modifier > .m-control-posi {
@@ -166,10 +169,10 @@ body.mode-edit {
 }
 
 .m-menu {
-  --label-size: 1.5rem;
+  --label-size: 2rem;
   position: absolute;
   left: 100%;
-  top: calc(50% - var(--label-size));
+  top: calc(50% - var(--label-size) - .2rem);
   transform: translate(25%, -50%);
 }
 
