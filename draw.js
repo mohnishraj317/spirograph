@@ -60,3 +60,7 @@ document.querySelector(".btn-add-circle")
 cnv.preview.addEventListener("mousedown", startDraw);
 cnv.preview.addEventListener("mousemove", draw);
 cnv.preview.addEventListener("mouseup", stopDraw);
+
+cnv.preview.addEventListener("touchstart", startDraw);
+cnv.preview.addEventListener("touchmove", draw);
+cnv.preview.addEventListener("touchend", stopDraw);

@@ -127,3 +127,11 @@ addEventListener("mouseup", () => {
   radiusFlag = false;
   moveFlag = false
 });
+
+addEventListener("touchmove", changeRadius);
+addEventListener("touchmove", changePosi);
+addEventListener("touchend", () => {
+  radiusFlag = false;
+  moveFlag = false
+});
+
