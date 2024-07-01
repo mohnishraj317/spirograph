@@ -11,7 +11,7 @@ function changeRadius(e) {
 
   const [ x ] = getClientCoords(e);
   const scale = MainScale.selected;
-  scale.r = Math.abs(x - scale.x);
+  scale.r = ~~Math.abs(x - scale.x);
   Modifier.update(scale);
 }
 
