@@ -17,11 +17,11 @@ export function resize(w = innerWidth, h = innerHeight) {
     cnv.style.height = h + "px";
     cnv.style.width = w + "px";
 
-    w *= devicePixelRatio;
-    h *= devicePixelRatio;
+    const scaleW = w * devicePixelRatio;
+    const scaleH = h * devicePixelRatio;
 
-    cnv.height = h;
-    cnv.width = w;
+    cnv.height = scaleH;
+    cnv.width = scaleW;
   });
 }
 
