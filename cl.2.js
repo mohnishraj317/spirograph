@@ -50,13 +50,12 @@ export class MainScale {
   }
 
   static scales = [];
-  static selected = null;
-
   static create(...args) {
     const scale = new MainScale(...args);
     MainScale.scales.push(scale);
     return scale;
   }
+  static selected = null;
 }
 
 class Pen {
@@ -88,7 +87,7 @@ export class Circle {
   constructor(r, initialTheta, omega, scale) {
     this.scale = scale;
     this.r = r;
-    this.theta = initialTheta - omega;
+    this.theta = initialTheta;
     this.omega = omega;
 
     this.x = this.y = this.cr = null;
@@ -118,8 +117,8 @@ export class Circle {
   }
 
   update(ctx, sheetCtx) {
-    this.theta += this.omega;
     this.draw(ctx, sheetCtx);
+    this.theta += this.omega;
   }
 
   addPen(width, color, offset) {
