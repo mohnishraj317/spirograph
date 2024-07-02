@@ -1,4 +1,3 @@
-"use strict";
 import './style.css';
 import "./dropdown.css";
 import feather from "feather-icons";

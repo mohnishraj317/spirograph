@@ -7,6 +7,7 @@ export default class Animation {
 
   static start() {
     Animation._animate();
+    Animation.play();
   }
 
   static play() {
