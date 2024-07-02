@@ -3,13 +3,15 @@ import { MainScale } from "./classes";
 export const cnv = {
   grapher: document.querySelector(".cnv-grapher"),
   sheet: document.querySelector(".cnv-sheet"),
-  preview: document.querySelector(".cnv-preview")
+  preview: document.querySelector(".cnv-preview"),
+  dummy: document.querySelector(".cnv-dummy")
 };
 
 export const ctx = {
   grapher: cnv.grapher.getContext("2d"),
   sheet: cnv.sheet.getContext("2d"),
   preview: cnv.preview.getContext("2d"),
+  dummy: cnv.dummy.getContext("2d")
 };
 
 export function resize(w = innerWidth, h = innerHeight) {

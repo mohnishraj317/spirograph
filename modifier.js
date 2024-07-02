@@ -50,26 +50,32 @@ export default class Modifier {
       <div class="dropdown m-menu">
         <label for="modifier-menu-toggler">+</label>
         <input type="checkbox" class="menu-toggler" id="modifier-menu-toggler" name="modifier-menu-toggler" />
+
         <div tabindex="0" class="menu-content">
-          <form class="form form-add-circle">
-            <label for="circle-r" class="form-field">
-              <span>r</span>
-              <input type="number" value="${10}" class="input-field" name="circle-r" id="circle-r" />
-            </label>
+          <div class="m-menu-form m-menu-tab">
+            <form class="form form-add-circle">
+              <label for="circle-r" class="form-field">
+                <span>r</span>
+                <input type="number" value="${10}" class="input-field" name="circle-r" id="circle-r" />
+              </label>
 
-            <label for="circle-theta" class="form-field">
-              <span>theta</span>
-              <input type="number" value="0" min="0" max="360" class="input-field" name="circle-theta" id="circle-theta" />
-            </label>
-            
-            <label for="circle-omega" class="form-field">
-              <span>omega</span>
-              <input type="number" value="0.01" min=".001" step=".001" class="input-field" name="circle-omega" id="circle-omega" />
-            </label>
+              <label for="circle-theta" class="form-field">
+                <span>theta</span>
+                <input type="number" value="0" min="0" max="360" class="input-field" name="circle-theta" id="circle-theta" />
+              </label>
+              
+              <label for="circle-omega" class="form-field">
+                <span>omega</span>
+                <input type="number" value="0.01" min=".001" step=".001" class="input-field" name="circle-omega" id="circle-omega" />
+              </label>
 
-            <button class="btn form-submit"><i data-feather="plus"></i></button>
-          </form>
-          <button class="btn btn-delete btn-delete-circle"><i data-feather="trash"></i></button>
+              <button class="btn form-submit"><i data-feather="plus"></i></button>
+            </form>
+            <button class="btn btn-delete btn-delete-circle"><i data-feather="trash"></i></button>
+          </div>
+          <div class="m-menu-circles m-menu-tab">
+
+          </div>
         </div>
       </div>
     </div>`);
