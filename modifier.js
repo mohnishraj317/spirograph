@@ -87,7 +87,7 @@ export default class Modifier {
       <span class="m-control m-control-radius" draggable="false"></span>
       <span class="m-control m-control-posi" draggable="false"></span>
       <div class="dropdown m-menu">
-        <label class="dropdown-toggler" for="modifier-menu-toggler">+</label>
+        <label class="dropdown-toggler" for="modifier-menu-toggler">${feather.icons.plus.toSvg()}</label>
         <input type="checkbox" class="dropdown-toggler-btn" id="modifier-menu-toggler" name="modifier-menu-toggler" />
 
         <div tabindex="0" class="dropdown-content">

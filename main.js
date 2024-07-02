@@ -13,7 +13,7 @@ import "./dropdown.js";
 
 feather.replace();
 
-addEventListener("load", Animation.play);
+addEventListener("load", Animation.start);
 
 document.querySelector(".menu-toggler")
   .addEventListener("click", () => {

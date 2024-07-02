@@ -5,10 +5,13 @@ export default class Animation {
   static playing = false;
   static _animID = null;
 
+  static start() {
+    Animation._animate();
+  }
+
   static play() {
     Animation.playing = true;
     document.querySelector(".btn-toggle-animation").classList.add("playing");
-    Animation._animate();
   }
 
   static pause() {
