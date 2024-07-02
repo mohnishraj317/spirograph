@@ -52,7 +52,7 @@ export default class Modifier {
         <input type="checkbox" class="menu-toggler" id="modifier-menu-toggler" name="modifier-menu-toggler" />
 
         <div tabindex="0" class="menu-content">
-          <div class="m-menu-form m-menu-tab">
+          <div class="m-menu-form menu-tab">
             <form class="form form-add-circle">
               <label for="circle-r" class="form-field">
                 <span>r</span>
@@ -73,8 +73,8 @@ export default class Modifier {
             </form>
             <button class="btn btn-delete btn-delete-circle"><i data-feather="trash"></i></button>
           </div>
-          <div class="m-menu-circles m-menu-tab">
-
+          <div class="m-menu-circles menu-tab">
+            Hello world
           </div>
         </div>
       </div>
