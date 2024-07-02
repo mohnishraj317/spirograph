@@ -48,10 +48,10 @@ export default class Modifier {
       <span class="m-control m-control-radius" draggable="false"></span>
       <span class="m-control m-control-posi" draggable="false"></span>
       <div class="dropdown m-menu">
-        <label for="modifier-menu-toggler">+</label>
-        <input type="checkbox" class="menu-toggler" id="modifier-menu-toggler" name="modifier-menu-toggler" />
+        <label class="dropdown-toggler" for="modifier-menu-toggler">+</label>
+        <input type="checkbox" class="dropdown-toggler-btn" id="modifier-menu-toggler" name="modifier-menu-toggler" />
 
-        <div tabindex="0" class="menu-content">
+        <div tabindex="0" class="dropdown-content">
           <div class="m-menu-form menu-tab">
             <form class="form form-add-circle">
               <label for="circle-r" class="form-field">

@@ -148,37 +148,6 @@ body.mode-edit {
   transform: translate(-50%, -50%);
 }
 
-.dropdown > .menu-content {
-  visibility: hidden;
-  position: absolute;
-  shadow: 0 0 .5rem var(--base-100);
-  top: calc(100% + .5rem);
-  left: 0;
-  color: var(--base-300);
-  width: max-content;
-  opacity: 0;
-  transition: 300ms;
-  display: flex;
-  gap: .5rem;
-}
-
-.dropdown > .menu-toggler {
-  appearance: none;
-  display: none;
-}
-
-.dropdown > .menu-toggler:checked + .menu-content {
-  visibility: visible;
-  opacity: 1;
-}
-
-.dropdown .menu-tab {
-  background: var(--base-50);
-  padding: 1rem;
-  border-radius: .2rem;
-  overflow: auto;
-}
-
 .m-menu {
   --label-size: 2rem;
   position: absolute;
