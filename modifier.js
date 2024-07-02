@@ -1,7 +1,8 @@
 import { createHTML, getClientCoords } from "./utils.js";
-import { MainScale } from "./classes.js";
+import { MainScale, Circle } from "./classes.js";
 import feather from "feather-icons";
 import { ctx } from "./utils.js";
+import Dropdown from "./dropdown.js";
 
 let radiusFlag = false;
 let moveFlag = false;
@@ -36,10 +37,48 @@ function addCircle(e) {
   circle.draw(ctx.grapher);
 
   circle.addPen(1, "red", 40);
+  Modifier.update(MainScale.selected);
+  Modifier.dropdown.setPosi();
 }
 
 function deleteCircle() {
   MainScale.selected.remove();
+}
+
+function createCircleOpt(circle) {
+  const el = createHTML(`<li class="circle-opt">
+    <button class="btn btn-delete">${feather.icons.trash.toSvg()}</button>
+    <span class="circle-name">${circle.r}</span>
+    ${feather.icons["chevron-right"].toSvg()}
+  </li>`);
+
+  el.querySelector(".btn-delete").addEventListener("click", () => {
+    circle.remove()
+    Modifier.update(MainScale.selected);
+  });
+  return el;
+}
+
+function toggleSelectCircle(circleEl) {
+  const isIdDiff = circleEl.dataset.id !== Circle.selected?.id;
+  unselectCircle();
+  if (isIdDiff) selectCircle(circleEl);
+}
+
+function selectCircle(circleEl) {
+  const circle = MainScale.selected.circleFromId(circleEl.getAttribute("data-id"));
+  if (!circle) return;
+  circle.select();
+  Modifier.wrapper.dataset.selectedCircle = circle.id;
+  Modifier.update(MainScale.selected);
+}
+
+function unselectCircle() {
+  const circle = Circle.selected;
+  if (!circle) return;
+  circle.unselect();
+  Modifier.wrapper.dataset.selectedCircle = "";
+  Modifier.update(MainScale.selected);
 }
 
 export default class Modifier {
@@ -54,6 +93,11 @@ export default class Modifier {
         <div tabindex="0" class="dropdown-content">
           <div class="m-menu-form menu-tab">
             <form class="form form-add-circle">
+              <label class="dropdown-toggler form-field" style="border: 1px solid var(--base-100); padding: .5rem; border-radius: .2rem;" for="modifier-menu-toggler">
+                <span data-feather="chevron-left"></span>
+                <span>Close</span>
+              </label>
+
               <label for="circle-r" class="form-field">
                 <span>r</span>
                 <input type="number" value="${10}" class="input-field" name="circle-r" id="circle-r" />
@@ -73,9 +117,8 @@ export default class Modifier {
             </form>
             <button class="btn btn-delete btn-delete-circle"><i data-feather="trash"></i></button>
           </div>
-          <div class="m-menu-circles menu-tab">
-            Hello world
-          </div>
+          <ul class="m-menu-circles menu-tab"></ul>
+          <div class="menu-tab m-menu-pens"></div>
         </div>
       </div>
     </div>`);
@@ -93,6 +136,16 @@ export default class Modifier {
     `;
 
     radiusEl.textContent = scale.r;
+
+    wrapper.querySelector(".m-menu-circles").innerHTML = "";
+
+    MainScale.selected.circles.forEach(circle => {
+      const circleEl = createCircleOpt(circle);
+      if (Modifier.wrapper.getAttribute("data-selected-circle") === circle.id) circleEl.classList.add("active");
+      wrapper.querySelector(".m-menu-circles").append(circleEl);
+      circleEl.dataset.id = circle.id;
+      circleEl.addEventListener("click", () => toggleSelectCircle(circleEl));
+    })
   }
 
   static activate(scale) {
@@ -101,6 +154,9 @@ export default class Modifier {
     const mControl = wrapper.querySelector(".m-control-posi");
 
     document.body.append(Modifier.el);
+    Modifier.dropdown = new Dropdown(wrapper.querySelector(".dropdown"));
+    Modifier.wrapper = wrapper;
+
     Modifier.el.classList.add("active");
     Modifier.update(scale);
 
@@ -132,7 +188,12 @@ export default class Modifier {
   static deactivate() {
     Modifier.el.remove();
     Modifier.el.classList.remove("active");
+    Modifier.dropdown = null;
+    Modifier.wrapper = null;
   }
+
+  static dropdown = null;
+  static wrappper = null;
 }
 
 addEventListener("mousemove", changeRadius);
@@ -148,4 +209,3 @@ addEventListener("touchend", () => {
   radiusFlag = false;
   moveFlag = false
 });
-

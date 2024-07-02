@@ -4,17 +4,13 @@
 
 .dropdown > .dropdown-content {
   visibility: hidden;
-  background: var(--base-50);
-  padding: 1rem;
   color: var(--base-300);
-  border-radius: .2rem;
   opacity: 0;
   transition: 300ms;
-  display: flex;
-  flex-direction: column;
-  width: 0;
-  height: 0;
+  display: none;
   position: absolute;
+  gap: .5rem;
+  align-items: flex-start;
 }
 
 .dropdown .dropdown-toggler {
@@ -30,8 +26,7 @@
 .dropdown > .dropdown-toggler-btn:checked + .dropdown-content {
   visibility: visible;
   opacity: 1;
-  width: max-content;
-  height: auto
+  display: flex;
 }
 
 .dropdown.d-right-0 > .dropdown-content {
@@ -44,3 +39,12 @@
   top: auto;
 }
 
+.dropdown-content > .menu-tab {
+  padding: 1rem;
+  background: var(--base-50);
+  border-radius: .2rem;
+
+  &:empty {
+    display: none;
+  }
+}

@@ -2,6 +2,8 @@ import Modifier from "./modifier.js";
 import { cnv, ctx, fillCnv } from "./utils.js";
 import Animation from "./animation.js";
 
+import { v4 as uuidv4 } from "uuid";
+
 export class MainScale {
   constructor(x, y, r) {
     this.x = x;
@@ -49,6 +51,10 @@ export class MainScale {
     Animation.updateScene();
   }
 
+  circleFromId(id) {
+    return this.circles.find(c => c.id === id);
+  }
+
   static scales = [];
   static selected = null;
 
@@ -90,9 +96,11 @@ export class Circle {
     this.r = r;
     this.theta = initialTheta - omega;
     this.omega = omega;
+    this.color = "black";
 
     this.x = this.y = this.cr = null;
-
+    
+    this.id = uuidv4();
     this.pens = [];
   }
 
@@ -111,7 +119,7 @@ export class Circle {
     ctx.beginPath();
     ctx.arc(cx, cy, this.r, - this.theta * this.cr, - this.cr * this.theta + Math.PI * 2);
     ctx.lineTo(cx, cy);
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = this.color;
     ctx.stroke();
     this.pens.forEach(pen => pen.draw(sheetCtx));
     ctx.restore();
@@ -125,4 +133,21 @@ export class Circle {
   addPen(width, color, offset) {
     this.pens.push(new Pen(width, color, offset, this));
   }
+
+  select() {
+    Circle.selected = this;
+    this.color = "red";
+  }
+
+  unselect() {
+    Circle.selected = null;
+    this.color = "black";
+  }
+
+  remove() {
+    this.scale.circles = this.scale.circles.filter(c => c !== this);
+    Circle.selected = null;
+  }
+
+  static selected = null;
 }

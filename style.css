@@ -67,6 +67,11 @@ body.mode-edit {
   list-style: none;
   background: var(--base-50);
   border-radius: .2rem;
+
+  & > li > * {
+    height: 100%;
+    width: 100%;
+  }
 }
 
 .menu.active > .menu-list {
@@ -167,7 +172,7 @@ body.mode-edit {
   cursor: pointer;
 }
 
-.btn-delete {
+.m-menu .btn-delete {
   display: block;
   background: #e64545; 
   color: white;
@@ -215,4 +220,40 @@ body.mode-edit {
 
 .btn-toggle-animation.playing > .feather-play {
   display: none;
+}
+
+.menu-tab.m-menu-circles {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0 !important;
+}
+
+.circle-opt {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: 300ms;
+  padding: .5rem;
+  gap: .5rem;
+  transition: 300ms;
+
+  &.active {
+    padding: .5rem;
+    border-radius: .2rem;
+    outline: var(--base-100) solid 1px;
+  }
+
+  & > .circle-name {
+    min-width: 4rem;
+  }
+
+  & > .btn-delete {
+    width: fit-content;
+  }
+
+  & > .btn {
+    margin: 0;
+  }
 }
