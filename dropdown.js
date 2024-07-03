@@ -24,4 +24,12 @@ export default class Dropdown {
     }
 
   }
+
+  close() {
+    this.wrapper.querySelector(".dropdown-toggler-btn").checked = false;
+  }
+
+  open() {
+    this.wrapper.querySelector(".dropdown-toggler-btn").checked = true;
+  }
 }

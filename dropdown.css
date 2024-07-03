@@ -40,7 +40,6 @@
 }
 
 .dropdown-content > .menu-tab {
-  padding: 1rem;
   background: var(--base-50);
   border-radius: .2rem;
 

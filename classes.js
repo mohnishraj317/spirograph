@@ -88,6 +88,10 @@ class Pen {
     ctx.strokeStyle = this.color;
     ctx.stroke(this.path);
   }
+
+  remove() {
+    this.parentCircle.pens = this.parentCircle.pens.filter(pen => pen !== this);
+  }
 }
 
 export class Circle {
@@ -140,13 +144,15 @@ export class Circle {
   }
 
   unselect() {
+    if (Circle.selected !== this) return;
+
     Circle.selected = null;
     this.color = "black";
   }
 
   remove() {
+    this.unselect();
     this.scale.circles = this.scale.circles.filter(c => c !== this);
-    Circle.selected = null;
   }
 
   static selected = null;

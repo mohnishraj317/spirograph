@@ -36,7 +36,6 @@ function addCircle(e) {
   const circle = MainScale.selected.addCircle(r, theta, omega);
   circle.draw(ctx.grapher);
 
-  circle.addPen(1, "red", 40);
   Modifier.update(MainScale.selected);
   Modifier.dropdown.setPosi();
 }
@@ -47,15 +46,16 @@ function deleteCircle() {
 
 function createCircleOpt(circle) {
   const el = createHTML(`<li class="circle-opt">
-    <button class="btn btn-delete">${feather.icons.trash.toSvg()}</button>
+    <button type="button" class="btn btn-delete">${feather.icons.trash.toSvg()}</button>
     <span class="circle-name">${circle.r}</span>
     ${feather.icons["chevron-right"].toSvg()}
   </li>`);
 
   el.querySelector(".btn-delete").addEventListener("click", () => {
-    circle.remove()
+    circle.remove();
     Modifier.update(MainScale.selected);
   });
+
   return el;
 }
 
@@ -70,7 +70,9 @@ function selectCircle(circleEl) {
   if (!circle) return;
   circle.select();
   Modifier.wrapper.dataset.selectedCircle = circle.id;
+  showPens(circle);
   Modifier.update(MainScale.selected);
+  Modifier.dropdown.setPosi();
 }
 
 function unselectCircle() {
@@ -78,11 +80,63 @@ function unselectCircle() {
   if (!circle) return;
   circle.unselect();
   Modifier.wrapper.dataset.selectedCircle = "";
+  hidePens();
   Modifier.update(MainScale.selected);
 }
 
+function createPenOpt(pen) {
+  const penEl = createHTML(`
+    <li class="pen-opt">
+      <button type="button" class="btn btn-delete">${feather.icons.trash.toSvg()}</button>
+      <span class="pen-color" style="background: ${pen.color}"></span>
+      <span class="pen-info">${pen.offset}</span>
+    </li>
+    `);
+
+  penEl.querySelector(".btn-delete")
+    .addEventListener("click", () => {
+      pen.remove();
+      Modifier.update(MainScale.selected);
+    });
+
+  return penEl;
+}
+
+function addPen(e) {
+  e.preventDefault();
+
+  const color = e.target["pen-color"].value;
+  const strokeWidth = e.target["pen-width"].value;
+  const offset = e.target["pen-offset"].value;
+  
+  const circle = Circle.selected;
+  if (!circle) return;
+
+  circle.addPen(strokeWidth, color, offset);
+  Modifier.update(MainScale.selected);
+  Modifier.dropdown.setPosi();
+}
+
+function showPens(circle) {
+  const pensMenu = Modifier.wrapper.querySelector(".m-menu-pens");
+  pensMenu.classList.add("active");
+
+  pensMenu.querySelector(".pens-list").innerHTML = "";
+  circle.pens.forEach(pen => {
+    const penEl = createPenOpt(pen);
+    pensMenu.querySelector(".pens-list").append(penEl);
+  });
+}
+
+function hidePens() {
+  const pensMenu = Modifier.wrapper.querySelector(".m-menu-pens");
+  pensMenu.classList.remove("active");
+  pensMenu.querySelector(".pens-list").innerHTML = "";
+}
+
 export default class Modifier {
-  static el = createHTML(`<div class="modifier">
+  static el = createHTML(`
+    <div class="modifier">
       <span class="m-radius" draggable="false"></span>
       <span class="m-control m-control-radius" draggable="false"></span>
       <span class="m-control m-control-posi" draggable="false"></span>
@@ -100,7 +154,7 @@ export default class Modifier {
 
               <label for="circle-r" class="form-field">
                 <span>r</span>
-                <input type="number" value="${10}" class="input-field" name="circle-r" id="circle-r" />
+                <input type="number" value="10" class="input-field" name="circle-r" id="circle-r" />
               </label>
 
               <label for="circle-theta" class="form-field">
@@ -113,17 +167,42 @@ export default class Modifier {
                 <input type="number" value="0.01" min=".001" step=".001" class="input-field" name="circle-omega" id="circle-omega" />
               </label>
 
-              <button class="btn form-submit"><i data-feather="plus"></i></button>
+              <div class="form-footer">
+                <button class="btn form-submit"><i data-feather="plus"></i></button>
+                <button type="button" class="btn btn-delete btn-delete-circle"><i data-feather="trash"></i></button>
+              </div>
             </form>
-            <button class="btn btn-delete btn-delete-circle"><i data-feather="trash"></i></button>
           </div>
           <ul class="m-menu-circles menu-tab"></ul>
-          <div class="menu-tab m-menu-pens"></div>
+          <div class="menu-tab m-menu-pens">
+            <form class="form form-add-pen">
+              <i></i> <!-- empty <i/> for evening out gaps -->
+              <label for="pen-width" class="form-field">
+                <span>width</span>
+                <input type="number" value="1" min=".5" step=".1" max="10" class="input-field" name="pen-width" id="pen-width" />
+              </label>
+              <label for="pen-offset" class="form-field">
+                <span>offset</span>
+                <input type="number" value="20" min="0" class="input-field" name="pen-offset" id="pen-offset" />
+              </label>
+              <label for="pen-color" class="form-field">
+                <span>color</span>
+                <input type="color" value="${getComputedStyle(document.documentElement).getPropertyValue("--base-200")}" name="pen-color" id="pen-color" />
+              </label>
+
+              <div class="form-footer">
+                <button class="btn form-submit"><i data-feather="plus"></i></button>
+              </div>
+            </form>
+
+            <ul class="pens-list"></ul>
+          </div>
         </div>
       </div>
     </div>`);
 
   static update(scale) {
+    if (!scale) return;
     const wrapper = Modifier.el;
     const radiusEl = wrapper.querySelector(".m-radius");
     const rControl = wrapper.querySelector(".m-control-radius");
@@ -142,13 +221,21 @@ export default class Modifier {
     MainScale.selected.circles.forEach(circle => {
       const circleEl = createCircleOpt(circle);
       if (Modifier.wrapper.getAttribute("data-selected-circle") === circle.id) circleEl.classList.add("active");
+
       wrapper.querySelector(".m-menu-circles").append(circleEl);
       circleEl.dataset.id = circle.id;
-      circleEl.addEventListener("click", () => toggleSelectCircle(circleEl));
-    })
+      circleEl.addEventListener("click", e => {
+        if (e.target.closest(".btn-delete")) return;
+        toggleSelectCircle(circleEl);
+      });
+    });
+
+    if (!Circle.selected) hidePens();
+    else showPens(Circle.selected);
   }
 
   static activate(scale) {
+    Modifier.isActive = true;
     const wrapper = Modifier.el;
     const rControl = wrapper.querySelector(".m-control-radius");
     const mControl = wrapper.querySelector(".m-control-posi");
@@ -182,18 +269,27 @@ export default class Modifier {
     wrapper.querySelector(".btn-delete-circle")
       .addEventListener("click", deleteCircle);
 
+    wrapper.querySelector(".form-add-pen")
+      .addEventListener("submit", addPen);
+
     feather.replace();
   }
 
   static deactivate() {
-    Modifier.el.remove();
+    if (!Modifier.isActive) return;
+    Modifier.isActive = false;
     Modifier.el.classList.remove("active");
+    Modifier.dropdown.close();
+    Modifier.el.remove();
+    unselectCircle();
     Modifier.dropdown = null;
     Modifier.wrapper = null;
   }
 
   static dropdown = null;
   static wrappper = null;
+
+  static isActive = false;
 }
 
 addEventListener("mousemove", changeRadius);
