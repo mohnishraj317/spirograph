@@ -164,7 +164,7 @@ export default class Modifier {
               
               <label for="circle-omega" class="form-field">
                 <span>omega</span>
-                <input type="number" value="0.01" min=".001" step=".001" class="input-field" name="circle-omega" id="circle-omega" />
+                <input type="number" value="0.01" step=".001" class="input-field" name="circle-omega" id="circle-omega" />
               </label>
 
               <div class="form-footer">
@@ -183,7 +183,7 @@ export default class Modifier {
               </label>
               <label for="pen-offset" class="form-field">
                 <span>offset</span>
-                <input type="number" value="20" min="0" class="input-field" name="pen-offset" id="pen-offset" />
+                <input type="number" value="20" class="input-field" name="pen-offset" id="pen-offset" />
               </label>
               <label for="pen-color" class="form-field">
                 <span>color</span>
